@@ -90,7 +90,7 @@ fn check_str_array_failed(inText: &str, parser: Parser<@~[@~str]>, expected: &st
 }
 
 // ---- Private Functions -----------------------------------------------------
-fn check_ok<T: Copy Durable cmp::Eq>(result: &Status<T>, expected: &T) -> bool
+fn check_ok<T: Copy+Durable+cmp::Eq>(result: &Status<T>, expected: &T) -> bool
 {
 	match *result
 	{
@@ -153,7 +153,7 @@ fn check_ok_str_arrays(result: &Status<@~[@~str]>, expected: @~[@~str]) -> bool
 	}
 }
 
-fn check_failed<T: Copy Durable>(result: &Status<T>, expected: &str, line: int) -> bool
+fn check_failed<T: Copy+Durable>(result: &Status<T>, expected: &str, line: int) -> bool
 {
 	match *result
 	{

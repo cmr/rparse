@@ -15,9 +15,9 @@ enum Xml
 	XXml(@~str, @~[Attribute], @~[Xml], @~str)
 }
 
-impl  Xml : ToStr 
+impl ToStr for Xml
 {
-	pure fn to_str() -> ~str
+	fn to_str() -> ~str
 	{
 		match self
 		{
@@ -38,9 +38,9 @@ impl  Xml : ToStr
 	}
 }
 
-impl  Attribute : ToStr 
+impl ToStr for Attribute
 {
-	pure fn to_str() -> ~str
+	fn to_str() -> ~str
 	{
 		return fmt!("%s = \"%s\"", *self.name, *self.value);
 	}
@@ -175,12 +175,15 @@ fn test_simple_element()
 {
 	let p = xml_parser();
 	
-	assert check_xml_ok("<trivial/>", "<trivial></trivial>", p);
-	assert check_xml_ok("<trivial first=\"number one\"/>", "<trivial first=\"number one\"></trivial>", p);
-	assert check_xml_ok("<trivial first=\"number one\" second=\"number two\"/>", "<trivial first=\"number one\" second=\"number two\"></trivial>", p);
-	assert check_xml_ok("  <  trivial first \t =    \"number one\"  \t/>", "<trivial first=\"number one\"></trivial>", p);
-	assert check_xml_failed("<trivial", p, "'/>' or '>'", 1);
-	assert check_xml_failed("<trivial first=\"number one/>", p, "'/>' or '>'", 1);
+	assert!(check_xml_ok("<trivial/>", "<trivial></trivial>", p));
+	assert!(check_xml_ok("<trivial first=\"number one\"/>", "<trivial first=\"number
+                         one\"></trivial>", p));
+	assert!(check_xml_ok("<trivial first=\"number one\" second=\"number two\"/>", "<trivial
+                         first=\"number one\" second=\"number two\"></trivial>", p));
+	assert!(check_xml_ok("  <  trivial first \t =    \"number one\"  \t/>", "<trivial first=\"number
+                         one\"></trivial>", p));
+	assert!(check_xml_failed("<trivial", p, "'/>' or '>'", 1));
+	assert!(check_xml_failed("<trivial first=\"number one/>", p, "'/>' or '>'", 1));
 }
 
 #[test]
@@ -188,25 +191,31 @@ fn test_element()
 {
 	let p = xml_parser();
 	
-	assert check_xml_ok("<simple>\n  \n</simple>", "<simple></simple>", p);
-	assert check_xml_failed("<simple></oops>", p, "end tag 'simple' but found 'oops'", 1);
-	assert check_xml_ok("<simple alpha = \"A\" beta=\"12\"></simple>", "<simple alpha=\"A\" beta=\"12\"></simple>", p);
+	assert!(check_xml_ok("<simple>\n  \n</simple>", "<simple></simple>", p));
+	assert!(check_xml_failed("<simple></oops>", p, "end tag 'simple' but found 'oops'", 1));
+	assert!(check_xml_ok("<simple alpha = \"A\" beta=\"12\"></simple>", "<simple alpha=\"A\"
+                         beta=\"12\"></simple>", p));
 	
-	assert check_xml_ok("<parent><child></child></parent>", "<parent><child></child></parent>", p);
-	assert check_xml_ok("<parent><child/></parent>", "<parent><child></child></parent>", p);
-	assert check_xml_ok("<parent><child1/><child2/></parent>", "<parent><child1></child1><child2></child2></parent>", p);
-	assert check_xml_ok("<parent><child1><child2></child2></child1></parent>", "<parent><child1><child2></child2></child1></parent>", p);
+	assert!(check_xml_ok("<parent><child></child></parent>", "<parent><child></child></parent>",
+                         p));
+	assert!(check_xml_ok("<parent><child/></parent>", "<parent><child></child></parent>", p));
+	assert!(check_xml_ok("<parent><child1/><child2/></parent>",
+                         "<parent><child1></child1><child2></child2></parent>", p));
+	assert!(check_xml_ok("<parent><child1><child2></child2></child1></parent>",
+                         "<parent><child1><child2></child2></child1></parent>", p));
 	
-	assert check_xml_ok("<parent>some text</parent>", "<parent>some text</parent>", p);
-	assert check_xml_ok("<parent><child/>blah blah</parent>", "<parent><child></child>blah blah</parent>", p);
-	assert check_xml_failed("<simple>\r  \n  \r\n</oops>", p, "end tag 'simple' but found 'oops'", 4);
+	assert!(check_xml_ok("<parent>some text</parent>", "<parent>some text</parent>", p));
+	assert!(check_xml_ok("<parent><child/>blah blah</parent>", "<parent><child></child>blah
+                         blah</parent>", p));
+	assert!(check_xml_failed("<simple>\r  \n  \r\n</oops>", p, "end tag 'simple' but found 'oops'",
+                             4));
 }
 
 #[testXX]
 fn test_x()
 {
 	let p = xml_parser();
-	assert check_xml_ok("<trivial/>", "<trivial></trivial>", p);
+	assert!(check_xml_ok("<trivial/>", "<trivial></trivial>", p));
 }
 
 

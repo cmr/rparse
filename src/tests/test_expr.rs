@@ -43,22 +43,22 @@ fn test_factor()
 {
 	let p = expr_parser();
 	
-	assert check_int_failed("", p, "expression", 1);
-	assert check_int_ok("23", p, 23);
-	assert check_int_ok(" 57   ", p, 57);
-	assert check_int_failed("+", p, "'('", 1);
-	assert check_int_failed(" 57   200", p, "EOT", 1);
+	assert!(check_int_failed("", p, "expression", 1));
+	assert!(check_int_ok("23", p, 23));
+	assert!(check_int_ok(" 57   ", p, 57));
+	assert!(check_int_failed("+", p, "'('", 1));
+	assert!(check_int_failed(" 57   200", p, "EOT", 1));
 	
 	// TODO: https://github.com/mozilla/rust/issues/2546
 	//assert check_int_failed("9999999999999999999999", p, "'9999999999999999999999' is out of range", 1);
 	
-	assert check_int_ok("(23)", p, 23);
-	assert check_int_ok("((23))", p, 23);
-	assert check_int_failed("(23", p, "')'", 1);
-	assert check_int_failed("((23)", p, "')'", 1);
+	assert!(check_int_ok("(23)", p, 23));
+	assert!(check_int_ok("((23))", p, 23));
+	assert!(check_int_failed("(23", p, "')'", 1));
+	assert!(check_int_failed("((23)", p, "')'", 1));
 	
-	assert check_int_ok("-(23)", p, -23);
-	assert check_int_ok("+(5)", p, 5);
+	assert!(check_int_ok("-(23)", p, -23));
+	assert!(check_int_ok("+(5)", p, 5));
 }
 
 #[test]
@@ -66,13 +66,13 @@ fn test_term()
 {
 	let p = expr_parser();
 	
-	assert check_int_ok("2*3", p, 6);
-	assert check_int_ok(" 4 / 2   ", p, 2);
-	assert check_int_failed("4 * ", p, "EOT", 1);
-	assert check_int_failed("4 ** 1", p, "EOT", 1);
-	assert check_int_failed("4 % 1", p, "EOT", 1);
+	assert!(check_int_ok("2*3", p, 6));
+	assert!(check_int_ok(" 4 / 2   ", p, 2));
+	assert!(check_int_failed("4 * ", p, "EOT", 1));
+	assert!(check_int_failed("4 ** 1", p, "EOT", 1));
+	assert!(check_int_failed("4 % 1", p, "EOT", 1));
 	
-	assert check_int_ok("2 * 3 / 6", p, 1);
+	assert!(check_int_ok("2 * 3 / 6", p, 1));
 }
 
 #[test]
@@ -80,10 +80,10 @@ fn test_expr()
 {
 	let p = expr_parser();
 	
-	assert check_int_ok("3+2", p, 5);
-	assert check_int_ok(" 3\t-2  ", p, 1);
-	assert check_int_ok("2 + 3*4", p, 14);
-	assert check_int_ok("(2 + 3)*4", p, 20);
+	assert!(check_int_ok("3+2", p, 5));
+	assert!(check_int_ok(" 3\t-2  ", p, 1));
+	assert!(check_int_ok("2 + 3*4", p, 14));
+	assert!(check_int_ok("(2 + 3)*4", p, 20));
 }
 
 #[test]
@@ -91,8 +91,8 @@ fn test_usage()
 {
 	match expr_parser().parse(@~"test", ~"2+3*5")
 	{
-		result::Ok(value) => assert value == 17,
-		result::Err(_) => assert false,
+		result::Ok(value) => assert!(value == 17),
+		result::Err(_) => assert!(false)
 	}
 }
 
@@ -103,5 +103,5 @@ fn test_log()
 {
 	let p = expr_parser();
 	
-	assert check_int_failed("2+3**5", p, "EOT", 1);
+	assert!(check_int_failed("2+3**5", p, "EOT", 1));
 }
